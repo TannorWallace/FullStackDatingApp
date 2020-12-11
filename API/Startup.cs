@@ -14,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
+
+
 namespace API
 {
   public class Startup
@@ -34,6 +36,7 @@ namespace API
         options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
       });
       services.AddControllers();
+      services.AddCors();
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -53,6 +56,8 @@ namespace API
       app.UseHttpsRedirection();
 
       app.UseRouting();
+      //x is just a holder parameter for the cors parameters. it can be anything you want it to be.
+      app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 
       app.UseAuthorization();
 
